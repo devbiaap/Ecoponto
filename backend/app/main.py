@@ -1,6 +1,6 @@
 
 from fastapi import FastAPI
-from app.routers import ponto_coleta, material
+from app.routers import ponto_coleta, material, ponto_material
 
 app = FastAPI(
     title="EcoPonto API",
@@ -10,6 +10,7 @@ app = FastAPI(
 
 app.include_router(ponto_coleta.router)
 app.include_router(material.router)
+app.include_router(ponto_material.router)
 
 @app.get("/")
 def home():
