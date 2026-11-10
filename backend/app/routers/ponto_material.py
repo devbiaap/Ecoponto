@@ -135,3 +135,31 @@ def listar_pontos_do_material(
     )
 
     return pontos
+
+@router.delete("/{ponto_id}/{material_id}")
+def remover_material_do_ponto(
+    ponto_id: int,
+    material_id: int,
+    db: Session = Depends(get_db)
+):
+    relacionamento = (
+        db.query(PontoMaterial)
+        .filter(
+            PontoMaterial.ponto_id == ponto_id,
+            PontoMaterial.material_id == material_id
+        )
+        .first()
+    )
+
+    if not relacionamento:
+        raise HTTPException(
+            status_code=404,
+            detail="Associação entre ponto e material não encontrada"
+        )
+
+    db.delete(relacionamento)
+    db.commit()
+
+    return {
+        "message": "Material removido do ponto de coleta com sucesso"
+    }
