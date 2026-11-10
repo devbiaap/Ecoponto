@@ -6,8 +6,11 @@ from app.models.ponto_coleta import PontoColeta
 from app.schemas.ponto_coleta import (
     PontoColetaCreate,
     PontoColetaUpdate,
-    PontoColetaResponse
+    PontoColetaResponse,
+    PontoColetaDetalhe
 )
+from app.models.material import Material
+from app.models.ponto_material import PontoMaterial
 
 
 router = APIRouter(
@@ -113,4 +116,46 @@ def excluir_ponto(
 
     return {
         "message": "Ponto de coleta excluído com sucesso"
+    }
+
+@router.get("/{ponto_id}")
+
+@router.get("/{ponto_id}/detalhes", response_model=PontoColetaDetalhe)
+def buscar_ponto_com_detalhes(
+    ponto_id: int,
+    db: Session = Depends(get_db)
+):
+    ponto = (
+        db.query(PontoColeta)
+        .filter(PontoColeta.id == ponto_id)
+        .first()
+    )
+
+    if not ponto:
+        raise HTTPException(
+            status_code=404,
+            detail="Ponto de coleta não encontrado"
+        )
+
+    materiais = (
+        db.query(Material)
+        .join(
+            PontoMaterial,
+            Material.id == PontoMaterial.material_id
+        )
+        .filter(PontoMaterial.ponto_id == ponto_id)
+        .all()
+    )
+
+    return {
+        "id": ponto.id,
+        "nome": ponto.nome,
+        "descricao": ponto.descricao,
+        "endereco": ponto.endereco,
+        "bairro": ponto.bairro,
+        "latitude": ponto.latitude,
+        "longitude": ponto.longitude,
+        "horario": ponto.horario,
+        "ativo": ponto.ativo,
+        "materiais": materiais
     }

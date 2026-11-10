@@ -1,4 +1,5 @@
 from pydantic import BaseModel, Field
+from app.schemas.material import MaterialResponse
 
 
 class PontoColetaBase(BaseModel):
@@ -24,3 +25,6 @@ class PontoColetaResponse(PontoColetaBase):
     model_config = {
         "from_attributes": True
     }
+
+class PontoColetaDetalhe(PontoColetaResponse):
+    materiais: list[MaterialResponse] = []
