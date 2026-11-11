@@ -44,12 +44,26 @@ def criar_ponto(
     return novo_ponto
 
 @router.get("/", response_model=list[PontoColetaResponse])
-def listar_pontos(db: Session = Depends(get_db)):
-    pontos = db.query(PontoColeta).all()
+def listar_pontos(
+    nome: str | None = None,
+    bairro: str | None = None,
+    db: Session = Depends(get_db)
+):
+    query = db.query(PontoColeta)
 
-    return pontos
+    if nome:
+        query = query.filter(
+            PontoColeta.nome.ilike(f"%{nome}%")
+        )
 
-@router.get("/{ponto_id}", response_model=PontoColetaResponse)
+    if bairro:
+        query = query.filter(
+            PontoColeta.bairro.ilike(f"%{bairro}%")
+        )
+
+    return query.all()
+
+@router.get("/{ponto_id}", response_model=PontoColetaResponse, summary="Buscar Ponto")
 def buscar_ponto(
     ponto_id: int,
     db: Session = Depends(get_db)
@@ -118,9 +132,7 @@ def excluir_ponto(
         "message": "Ponto de coleta excluído com sucesso"
     }
 
-@router.get("/{ponto_id}")
-
-@router.get("/{ponto_id}/detalhes", response_model=PontoColetaDetalhe)
+@router.get("/{ponto_id}/detalhes", response_model=PontoColetaDetalhe, summary="Buscar Ponto com Detalhes")
 def buscar_ponto_com_detalhes(
     ponto_id: int,
     db: Session = Depends(get_db)
