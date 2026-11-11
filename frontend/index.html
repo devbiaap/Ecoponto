@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EcoPonto</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <div class="logo">
+            <h1>🌱 EcoPonto</h1>
+        </div>
+
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#pontos">Pontos de coleta</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section id="inicio" class="hero">
+
+            <div class="hero-conteudo">
+                <h2>Encontre o lugar certo para descartar seus materiais ♻️</h2>
+
+                <p>
+                    Encontre pontos de coleta e descubra quais materiais
+                    podem ser descartados corretamente.
+                </p>
+
+                <a href="#pontos" class="botao">
+                    Encontrar pontos
+                </a>
+            </div>
+
+        </section>
+
+
+        <section id="pontos" class="secao-pontos">
+
+            <h2>Encontre um ponto de coleta</h2>
+
+            <p class="descricao-secao">
+                Pesquise pelo nome ou filtre os pontos por bairro.
+            </p>
+
+
+            <div class="filtros">
+
+                <input
+                    type="text"
+                    id="buscaNome"
+                    placeholder="Buscar pelo nome..."
+                >
+
+                <input
+                    type="text"
+                    id="buscaBairro"
+                    placeholder="Filtrar por bairro..."
+                >
+
+                <button id="botaoBuscar">
+                    Buscar
+                </button>
+
+            </div>
+
+
+            <div id="listaPontos" class="lista-pontos">
+
+                <p class="mensagem-inicial">
+                    Carregando pontos de coleta...
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>
+            © 2026 EcoPonto — Descarte consciente para um futuro melhor 🌱
+        </p>
+    </footer>
+
+    <div id="modalDetalhes" class="modal">
+      <div class="modal-conteudo">
+
+          <button id="fecharModal" class="fechar-modal">
+            ×
+          </button>
+
+          <div id="conteudoDetalhes"></div>
+
+      </div>
+  </div>
+
+  <script src="js/app.js"></script>
+
+</body>
+</html>
